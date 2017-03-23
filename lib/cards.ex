@@ -19,4 +19,24 @@ defmodule Cards do
   def deal(deck, hand_size) do
     Enum.split(deck, hand_size)
   end
+
+  # pattern matching: {hand, rest_of_deck} = Cards.deal(deck, 5)
+  # hand // > [card1 ... card5]
+
+  def save(deck, filename)  do
+    binary = :erlang.term_to_binary(deck)
+    File.write(filename, binary)
+    # :erlang calls erlang
+    # binary line encodes file and converts to a saveable object(in the filesystem)
+    #
+  end
+
+  def load(filename) do
+    {status, binary} = File.read(filename)
+
+    case status do
+      :ok -> :erlang.binary_to_term(binary)
+      :error -> "That file does not exist"
+    end
+  end
 end
